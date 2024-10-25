@@ -22,6 +22,12 @@ public class RegistrationServiceImpl implements RegistrationService{
         dto.setMessage("registration Created successfully");
         return dto;
     }
+
+    @Override
+    public void deleteRegistration(long id) {
+        registrationRepository.deleteById(id);
+    }
+
     Registration mapToEntity(RegistrationDto dto){
         Registration entity=new Registration();
         entity.setName(dto.getName());

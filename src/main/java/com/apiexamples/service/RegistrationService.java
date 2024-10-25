@@ -4,4 +4,6 @@ import com.apiexamples.payload.RegistrationDto;
 
 public interface RegistrationService {
     public RegistrationDto createRegistration(RegistrationDto registrationDto);
+
+    void deleteRegistration(long id);
 }
