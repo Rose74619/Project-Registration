@@ -2,8 +2,10 @@ package com.apiexamples.controller;
 
 import com.apiexamples.payload.RegistrationDto;
 import com.apiexamples.service.RegistrationService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +20,10 @@ public class RegistrationController {
     }
     //http://localhost:8080/api/v1/registration
     @PostMapping
-    public ResponseEntity<RegistrationDto> addRegistration(@RequestBody RegistrationDto registrationDto){
+    public ResponseEntity<?> addRegistration(@Valid @RequestBody RegistrationDto registrationDto, BindingResult result){
+        if(result.hasErrors()){
+            return new ResponseEntity<>(result.getFieldError().getDefaultMessage(),HttpStatus.OK);
+        }
         RegistrationDto registrationDto1=registrationService.createRegistration(registrationDto);
         return new ResponseEntity<>(registrationDto1, HttpStatus.CREATED);
     }
@@ -47,5 +52,10 @@ public class RegistrationController {
         List<RegistrationDto> registrationDtoList=registrationService.getRegistration(pageNo, pageSize, sortBy, sortDir);
         return new ResponseEntity<>(registrationDtoList, HttpStatus.OK);
 
+    }
+    @GetMapping("/ById")
+    public ResponseEntity<RegistrationDto> getRegistrationById(@RequestParam long id){
+        RegistrationDto registrationDto=registrationService.getRegistrationById(id);
+        return new ResponseEntity<>(registrationDto, HttpStatus.OK);
     }
 }

@@ -12,4 +12,6 @@ public interface RegistrationService {
     RegistrationDto updateRegistration(RegistrationDto registrationDto, long id);
 
     List<RegistrationDto> getRegistration(int pageNo, int pageSize, String sortBy, String sortDir);
+
+    RegistrationDto getRegistrationById(long id);
 }
