@@ -5,6 +5,8 @@ import com.apiexamples.payload.RegistrationDto;
 import com.apiexamples.repository.RegistrationRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class RegistrationServiceImpl implements RegistrationService{
 
@@ -26,6 +28,19 @@ public class RegistrationServiceImpl implements RegistrationService{
     @Override
     public void deleteRegistration(long id) {
         registrationRepository.deleteById(id);
+    }
+
+    @Override
+    public RegistrationDto updateRegistration(RegistrationDto registrationDto, long id) {
+        Optional<Registration> byId = registrationRepository.findById(id);
+        Registration registration=byId.get();
+        registration.setName(registrationDto.getName());
+        registration.setEmail(registrationDto.getEmail());
+        registration.setPhone(registrationDto.getPhone());
+        Registration savedEntity=registrationRepository.save(registration);
+        RegistrationDto dto=mapToDto(registration);
+        dto.setMessage("Registration Updated Successfully");
+        return dto;
     }
 
     Registration mapToEntity(RegistrationDto dto){

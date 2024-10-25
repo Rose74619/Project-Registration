@@ -26,4 +26,10 @@ public class RegistrationController {
         registrationService.deleteRegistration(id);
         return new ResponseEntity<>("Registration deleted", HttpStatus.OK);
     }
+    //http://localhost:8080/api/v1/registration?id=
+    @PutMapping
+    public ResponseEntity<RegistrationDto> updateRegistration(@RequestBody RegistrationDto registrationDto, @RequestParam long id){
+       RegistrationDto registrationDto2=registrationService.updateRegistration(registrationDto,id);
+       return new ResponseEntity<>(registrationDto2,HttpStatus.OK);
+    }
 }
